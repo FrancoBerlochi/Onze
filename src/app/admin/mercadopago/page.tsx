@@ -37,6 +37,7 @@ interface Order {
 export default function OrdersDashboard() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<'PREPARE' | 'COMPLETED' | 'ABANDONED'>('PREPARE');
   const router = useRouter();
 
   useEffect(() => {
@@ -110,6 +111,13 @@ export default function OrdersDashboard() {
     return <div className="flex-1 flex items-center justify-center"><Loader2 className="w-10 h-10 animate-spin text-brand-gold" /></div>;
   }
 
+  const filteredOrders = orders.filter(order => {
+    if (activeTab === 'PREPARE') return order.status === 'ACCEPTED';
+    if (activeTab === 'COMPLETED') return order.status === 'COMPLETED';
+    if (activeTab === 'ABANDONED') return order.status === 'PENDING' || order.status === 'CANCELLED';
+    return true;
+  });
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex items-center gap-4 mb-8">
@@ -122,13 +130,41 @@ export default function OrdersDashboard() {
         </div>
       </div>
 
+      {/* Tabs */}
+      <div className="flex flex-wrap gap-2 mb-8 bg-black/40 p-2 rounded-2xl border border-white/5">
+        <button
+          onClick={() => setActiveTab('PREPARE')}
+          className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-colors ${
+            activeTab === 'PREPARE' ? 'bg-brand-gold text-black' : 'text-white/60 hover:bg-white/5 hover:text-white'
+          }`}
+        >
+          📦 Para Preparar
+        </button>
+        <button
+          onClick={() => setActiveTab('COMPLETED')}
+          className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-colors ${
+            activeTab === 'COMPLETED' ? 'bg-blue-500 text-white' : 'text-white/60 hover:bg-white/5 hover:text-white'
+          }`}
+        >
+          ✅ Finalizados
+        </button>
+        <button
+          onClick={() => setActiveTab('ABANDONED')}
+          className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-colors ${
+            activeTab === 'ABANDONED' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'text-white/60 hover:bg-white/5 hover:text-white'
+          }`}
+        >
+          👻 Abandonados
+        </button>
+      </div>
+
       <div className="space-y-6">
-        {orders.length === 0 ? (
+        {filteredOrders.length === 0 ? (
           <div className="bg-brand-card/50 border border-white/5 rounded-2xl p-12 text-center text-white/50">
-            No hay pedidos registrados aún.
+            No hay pedidos en esta sección.
           </div>
         ) : (
-          orders.map((order) => (
+          filteredOrders.map((order) => (
             <div key={order.id} className="bg-brand-card/50 border border-white/5 rounded-2xl overflow-hidden shadow-xl">
               {/* Encabezado del Pedido */}
               <div className="bg-black/40 p-4 sm:px-6 border-b border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
