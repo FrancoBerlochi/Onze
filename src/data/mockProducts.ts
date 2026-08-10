@@ -27,6 +27,7 @@ export const PRODUCTS: Product[] = [
     type: "Especial",
     image: "/camiseta-seleccion-italia-azul.webp",
     featured: true,
+    stockS: 10, stockM: 10, stockL: 10, stockXL: 10, stockXXL: 10, stock3XL: 10
   },
   {
     id: "2",
@@ -36,6 +37,7 @@ export const PRODUCTS: Product[] = [
     type: "Titular",
     image: "/camiseta-seleccion-marruecos-roja.webp",
     featured: true,
+    stockS: 10, stockM: 10, stockL: 10, stockXL: 10, stockXXL: 10, stock3XL: 10
   },
   {
     id: "3",
@@ -45,6 +47,7 @@ export const PRODUCTS: Product[] = [
     type: "Especial",
     image: "/camiseta-adidas-ferrari-negra.webp",
     featured: true,
+    stockS: 10, stockM: 10, stockL: 10, stockXL: 10, stockXXL: 10, stock3XL: 10
   },
   {
     id: "4",
@@ -52,7 +55,8 @@ export const PRODUCTS: Product[] = [
     price: 40000,
     category: "Nacional",
     type: "Titular",
-    image: "/logo-onze-camisetas-remera.webp", // placeholder until real one is added
+    image: "/logo-onze-camisetas-remera.webp",
+    stockS: 10, stockM: 10, stockL: 10, stockXL: 10, stockXXL: 10, stock3XL: 10
   },
   {
     id: "5",
@@ -60,7 +64,8 @@ export const PRODUCTS: Product[] = [
     price: 40000,
     category: "Nacional",
     type: "Titular",
-    image: "/logo-onze-camisetas-remera.webp", // placeholder until real one is added
+    image: "/logo-onze-camisetas-remera.webp",
+    stockS: 10, stockM: 10, stockL: 10, stockXL: 10, stockXXL: 10, stock3XL: 10
   },
   {
     id: "6",
@@ -68,7 +73,8 @@ export const PRODUCTS: Product[] = [
     price: 45000,
     category: "Nacional",
     type: "Titular",
-    image: "/logo-onze-camisetas-remera.webp", // placeholder until real one is added
+    image: "/logo-onze-camisetas-remera.webp",
     featured: true,
+    stockS: 10, stockM: 10, stockL: 10, stockXL: 10, stockXXL: 10, stock3XL: 10
   }
 ];
