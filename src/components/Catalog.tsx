@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Product, PRODUCTS } from "@/data/mockProducts";
+import { Product } from "@/data/mockProducts";
 import ProductCard from "./ProductCard";
 import { Search, SlidersHorizontal } from "lucide-react";
 
@@ -9,7 +9,11 @@ type MainFilter = "Todas" | "Nacional" | "Internacional";
 type SubFilter = "Todas" | "Titular" | "Suplente" | "Especial";
 type SortOption = "precio-asc" | "precio-desc" | "nombre";
 
-export default function Catalog() {
+interface CatalogProps {
+  initialProducts: Product[];
+}
+
+export default function Catalog({ initialProducts }: CatalogProps) {
   const [mainFilter, setMainFilter] = useState<MainFilter>("Todas");
   const [subFilter, setSubFilter] = useState<SubFilter>("Todas");
   const [searchQuery, setSearchQuery] = useState("");
@@ -17,7 +21,7 @@ export default function Catalog() {
   const [isSortOpen, setIsSortOpen] = useState(false);
 
   const filteredProducts = useMemo(() => {
-    let result = [...PRODUCTS];
+    let result = [...initialProducts];
 
     // Main Filter
     if (mainFilter !== "Todas") {

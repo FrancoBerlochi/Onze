@@ -1,6 +1,6 @@
 "use client";
 
-import { X, Ruler, Plus, Info } from "lucide-react";
+import { X, Ruler, Plus, Info, ZoomIn } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Product, Size } from "@/data/mockProducts";
@@ -20,6 +20,7 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
   const [selectedSize, setSelectedSize] = useState<Size | null>(null);
   const [customization, setCustomization] = useState("");
   const [isSizeModalOpen, setIsSizeModalOpen] = useState(false);
+  const [isZoomed, setIsZoomed] = useState(false);
 
   const handleAddToCart = () => {
     if (!selectedSize) return;
@@ -65,9 +66,22 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
               </button>
               
               {/* Image Section */}
-              <div className="w-full md:w-1/2 h-[30vh] sm:h-[36vh] md:h-auto relative bg-[#111] shrink-0 border-b md:border-b-0 md:border-r border-white/5">
-                <img src={product.image} alt={product.name} className="absolute inset-0 w-full h-full object-cover" />
-                <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
+              <div className="w-full md:w-1/2 h-[30vh] sm:h-[36vh] md:h-auto relative bg-[#111] shrink-0 border-b md:border-b-0 md:border-r border-white/5 group cursor-pointer" onClick={() => setIsZoomed(true)}>
+                <img
+                  src={product.image || "/logo-onze-camisetas-remera.webp"}
+                  alt={product.name}
+                  onError={(e) => { (e.target as HTMLImageElement).src = "/logo-onze-camisetas-remera.webp"; }}
+                  className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                />
+                
+                {/* Zoom overlay hint */}
+                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
+                  <div className="bg-brand-black/80 backdrop-blur text-white px-4 py-2 rounded-full flex items-center gap-2 text-sm font-medium border border-white/10">
+                    <ZoomIn className="w-4 h-4" /> Ampliar
+                  </div>
+                </div>
+
+                <div className="absolute top-3 left-3 sm:top-4 sm:left-4 z-10">
                   <span className="px-2.5 py-0.5 sm:px-3 sm:py-1 bg-brand-black/80 backdrop-blur-md text-[10px] sm:text-xs font-medium text-brand-gold rounded-full border border-brand-gold/20 uppercase tracking-widest">
                     {product.type}
                   </span>
@@ -97,21 +111,31 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
                         Guía de talles
                       </button>
                     </div>
-                    <div className="grid grid-cols-6 gap-1 sm:gap-2">
-                      {SIZES.map(size => (
-                        <button
-                          key={size}
-                          onClick={() => setSelectedSize(size)}
-                          className={`py-2 sm:py-3 rounded-lg border text-xs sm:text-sm font-bold transition-all ${
-                            selectedSize === size 
-                              ? 'bg-brand-gold border-brand-gold text-brand-black' 
-                              : 'bg-transparent border-white/20 text-white hover:border-brand-gold hover:text-brand-gold'
-                          }`}
-                        >
-                          {size}
-                        </button>
-                      ))}
-                    </div>
+                    <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3">
+                  {[
+                    { size: "S" as Size, stock: product.stockS || 0 },
+                    { size: "M" as Size, stock: product.stockM || 0 },
+                    { size: "L" as Size, stock: product.stockL || 0 },
+                    { size: "XL" as Size, stock: product.stockXL || 0 },
+                    { size: "XXL" as Size, stock: product.stockXXL || 0 },
+                    { size: "3XL" as Size, stock: product.stock3XL || 0 }
+                  ].map(({ size, stock }) => (
+                    <button
+                      key={size}
+                      onClick={() => stock > 0 && setSelectedSize(size)}
+                      disabled={stock === 0}
+                      className={`py-2 sm:py-3 rounded-xl font-medium transition-all ${
+                        stock === 0 
+                          ? "bg-white/5 text-white/20 cursor-not-allowed border border-white/5"
+                          : selectedSize === size
+                            ? "bg-brand-gold text-brand-black shadow-[0_0_15px_rgba(255,183,0,0.3)]"
+                            : "bg-white/5 hover:bg-white/10 text-white/80 border border-white/10"
+                      }`}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
                   </div>
 
                   {/* Customization */}
@@ -153,6 +177,34 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
               </div>
             </motion.div>
           </>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {isZoomed && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[80] bg-black/95 flex items-center justify-center p-4 cursor-zoom-out"
+            onClick={() => setIsZoomed(false)}
+          >
+            <button
+              onClick={() => setIsZoomed(false)}
+              className="absolute top-4 right-4 sm:top-8 sm:right-8 p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors z-10"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <motion.img
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.9 }}
+              src={product.image || "/logo-onze-camisetas-remera.webp"}
+              alt={product.name}
+              className="max-w-full max-h-[90vh] object-contain rounded-lg"
+              onError={(e) => { (e.target as HTMLImageElement).src = "/logo-onze-camisetas-remera.webp"; }}
+            />
+          </motion.div>
         )}
       </AnimatePresence>
       

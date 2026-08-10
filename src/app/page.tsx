@@ -4,10 +4,22 @@ import Hero from "@/components/Hero";
 import InfoBanners from "@/components/InfoBanners";
 import ProductCard from "@/components/ProductCard";
 import Catalog from "@/components/Catalog";
-import { PRODUCTS } from "@/data/mockProducts";
+import { Product } from "@/data/mockProducts";
 
-export default function Home() {
-  const featuredProducts = PRODUCTS.filter(p => p.featured);
+async function getProducts(): Promise<Product[]> {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api'}/products`, { cache: 'no-store' });
+    if (!res.ok) throw new Error('Failed to fetch products');
+    return res.json();
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+export default async function Home() {
+  const products = await getProducts();
+  const featuredProducts = products.filter((p: Product) => p.featured);
 
   return (
     <>
@@ -51,7 +63,7 @@ export default function Home() {
               </p>
             </div>
 
-            <Catalog />
+            <Catalog initialProducts={products} />
           </div>
         </section>
 

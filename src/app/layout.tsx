@@ -3,6 +3,7 @@ import { Anton, Poppins } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import CartDrawer from "@/components/CartDrawer";
+import { Toaster } from "react-hot-toast";
 
 const anton = Anton({
   variable: "--font-anton",
@@ -32,6 +33,16 @@ export default function RootLayout({
         <CartProvider>
           {children}
           <CartDrawer />
+          <Toaster 
+            position="bottom-right" 
+            toastOptions={{
+              style: {
+                background: '#222',
+                color: '#fff',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+              }
+            }}
+          />
         </CartProvider>
       </body>
     </html>

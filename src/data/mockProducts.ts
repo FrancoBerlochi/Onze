@@ -10,6 +10,12 @@ export interface Product {
   type: ProductType;
   image: string;
   featured?: boolean;
+  stockS: number;
+  stockM: number;
+  stockL: number;
+  stockXL: number;
+  stockXXL: number;
+  stock3XL: number;
 }
 
 export const PRODUCTS: Product[] = [
