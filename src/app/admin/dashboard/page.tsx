@@ -354,7 +354,7 @@ export default function AdminDashboard() {
                     ) : (
                       <button 
                         type="button" 
-                        onClick={() => alert("Para usar este botón, debés configurar NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME en tu archivo .env.local de Next.js")}
+                        onClick={() => toast.error("Para usar este botón, debés configurar NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME en tu archivo .env.local de Next.js")}
                         className="bg-white/5 border border-white/10 px-4 rounded-xl flex items-center justify-center cursor-help opacity-50"
                         title="Cloudinary no configurado"
                       >
