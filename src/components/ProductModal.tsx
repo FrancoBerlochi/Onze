@@ -81,10 +81,15 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
                   </div>
                 </div>
 
-                <div className="absolute top-3 left-3 sm:top-4 sm:left-4 z-10">
-                  <span className="px-2.5 py-0.5 sm:px-3 sm:py-1 bg-brand-black/80 backdrop-blur-md text-[10px] sm:text-xs font-medium text-brand-gold rounded-full border border-brand-gold/20 uppercase tracking-widest">
+                <div className="absolute top-3 left-3 sm:top-4 sm:left-4 z-10 flex flex-col gap-2">
+                  <span className="px-2.5 py-0.5 sm:px-3 sm:py-1 bg-brand-black/80 backdrop-blur-md text-[10px] sm:text-xs font-medium text-brand-gold rounded-full border border-brand-gold/20 uppercase tracking-widest self-start">
                     {product.type}
                   </span>
+                  {product.originalPrice && product.originalPrice > product.price && (
+                    <span className="px-2.5 py-0.5 sm:px-3 sm:py-1 bg-red-600/90 backdrop-blur-md text-[10px] sm:text-xs font-bold text-white rounded-full border border-red-500/50 uppercase tracking-widest self-start shadow-lg flex items-center gap-1">
+                      🔥 PROMO -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
+                    </span>
+                  )}
                 </div>
               </div>
               
@@ -95,8 +100,15 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
                   <h2 className="font-sans font-bold text-lg sm:text-2xl md:text-3xl text-white leading-tight mb-1 sm:mb-2">
                     {product.name}
                   </h2>
-                  <div className="font-anton text-2xl sm:text-3xl md:text-4xl text-brand-gold tracking-wide mb-2 sm:mb-4">
-                    ${product.price.toLocaleString("es-AR")}
+                  <div className="flex items-end gap-3 mb-2 sm:mb-4">
+                    <div className="font-anton text-2xl sm:text-3xl md:text-4xl text-brand-gold tracking-wide">
+                      ${product.price.toLocaleString("es-AR")}
+                    </div>
+                    {product.originalPrice && product.originalPrice > product.price && (
+                      <div className="text-sm sm:text-lg text-white/40 line-through mb-1 sm:mb-1.5 font-bold">
+                        ${product.originalPrice.toLocaleString("es-AR")}
+                      </div>
+                    )}
                   </div>
                   
                   {/* Size Selector */}

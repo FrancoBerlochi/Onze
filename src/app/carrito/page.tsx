@@ -13,6 +13,7 @@ export default function CheckoutPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [shippingSettings, setShippingSettings] = useState({ shippingCost: 0, freeShippingThreshold: 0 });
 
   // Form states
   const [formData, setFormData] = useState({
@@ -26,7 +27,28 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     setMounted(true);
+    fetchSettings();
   }, []);
+
+  const fetchSettings = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api'}/settings`);
+      if (res.ok) {
+        const data = await res.json();
+        setShippingSettings({ 
+          shippingCost: data.shippingCost, 
+          freeShippingThreshold: data.freeShippingThreshold 
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching settings:", error);
+    }
+  };
+
+  const cartItemCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const isShippingFree = shippingSettings.freeShippingThreshold > 0 && cartItemCount >= shippingSettings.freeShippingThreshold;
+  const currentShippingCost = isShippingFree ? 0 : shippingSettings.shippingCost;
+  const finalTotal = cartTotal + currentShippingCost;
 
   if (!mounted) return null;
 
@@ -67,7 +89,8 @@ export default function CheckoutPage() {
             price: item.product.price
           })),
           customer: formData,
-          total: cartTotal
+          total: finalTotal,
+          shippingCost: currentShippingCost
         })
       });
 
@@ -169,12 +192,18 @@ export default function CheckoutPage() {
                 <span>${cartTotal.toLocaleString("es-AR")}</span>
               </div>
               <div className="flex justify-between text-sm text-white/70">
-                <span>Envío</span>
-                <span className="text-green-400">Gratis</span>
+                <span>Envío {shippingSettings.freeShippingThreshold > 0 && `(Gratis llevando ${shippingSettings.freeShippingThreshold})`}</span>
+                {isShippingFree ? (
+                  <span className="text-green-400 font-bold">Gratis</span>
+                ) : (
+                  <span>
+                    {currentShippingCost > 0 ? `$${currentShippingCost.toLocaleString("es-AR")}` : <span className="text-green-400 font-bold">Gratis</span>}
+                  </span>
+                )}
               </div>
               <div className="flex justify-between items-end pt-3 border-t border-white/5">
                 <span className="font-medium">Total</span>
-                <span className="font-anton text-3xl text-white">${cartTotal.toLocaleString("es-AR")}</span>
+                <span className="font-anton text-3xl text-white">${finalTotal.toLocaleString("es-AR")}</span>
               </div>
             </div>
 

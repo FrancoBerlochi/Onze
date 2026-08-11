@@ -31,7 +31,6 @@ export default function ProductCard({ product }: ProductCardProps) {
       >
         {/* Image Container */}
         <div className="relative aspect-[4/5] bg-[#111] overflow-hidden">
-          {/* Type Badge */}
           <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
             <span className="px-3 py-1 bg-brand-black/80 backdrop-blur-md text-xs font-medium text-brand-gold rounded-full border border-brand-gold/20 uppercase tracking-widest self-start">
               {product.type}
@@ -39,6 +38,11 @@ export default function ProductCard({ product }: ProductCardProps) {
             {isOutOfStock && (
               <span className="px-3 py-1 bg-red-500/80 backdrop-blur-md text-xs font-bold text-white rounded-full border border-red-500/50 uppercase tracking-widest self-start shadow-lg">
                 Sin Stock
+              </span>
+            )}
+            {product.originalPrice && product.originalPrice > product.price && !isOutOfStock && (
+              <span className="px-3 py-1 bg-red-600/90 backdrop-blur-md text-xs font-bold text-white rounded-full border border-red-500/50 uppercase tracking-widest self-start shadow-lg flex items-center gap-1">
+                🔥 PROMO -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
               </span>
             )}
           </div>
@@ -92,10 +96,17 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
           
           <div className="flex items-end justify-between mt-auto">
-            <div className="font-anton text-2xl text-brand-gold tracking-wide">
-              ${product.price.toLocaleString("es-AR")}
+            <div className="flex flex-col">
+              {product.originalPrice && product.originalPrice > product.price && (
+                <span className="text-xs text-white/40 line-through mb-0.5">
+                  ${product.originalPrice.toLocaleString("es-AR")}
+                </span>
+              )}
+              <div className="font-anton text-2xl text-brand-gold tracking-wide">
+                ${product.price.toLocaleString("es-AR")}
+              </div>
             </div>
-            <div className="flex gap-1">
+            <div className="flex gap-1 mb-1">
               {["S", "M", "L", "XL", "XXL", "3XL"].map(size => (
                 <span key={size} className="text-[10px] text-white/30 font-medium">
                   {size}

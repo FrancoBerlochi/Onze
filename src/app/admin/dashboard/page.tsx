@@ -12,6 +12,8 @@ export default function AdminDashboard() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [settingsLoading, setSettingsLoading] = useState(false);
+  const [storeSettings, setStoreSettings] = useState({ shippingCost: 0, freeShippingThreshold: 0 });
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -20,6 +22,7 @@ export default function AdminDashboard() {
   // Form State
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
+  const [originalPrice, setOriginalPrice] = useState("");
   const [category, setCategory] = useState("Nacional");
   const [type, setType] = useState("Titular");
   const [image, setImage] = useState("");
@@ -38,7 +41,45 @@ export default function AdminDashboard() {
       return;
     }
     fetchProducts();
+    fetchSettings();
   }, [router]);
+
+  const fetchSettings = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api'}/settings`);
+      if (res.ok) {
+        const data = await res.json();
+        setStoreSettings({ shippingCost: data.shippingCost, freeShippingThreshold: data.freeShippingThreshold });
+      }
+    } catch (error) {
+      console.error("Error fetching settings:", error);
+    }
+  };
+
+  const saveSettings = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSettingsLoading(true);
+    try {
+      const token = localStorage.getItem("admin_token");
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api'}/settings`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(storeSettings)
+      });
+      if (res.ok) {
+        toast.success("Configuración guardada");
+      } else {
+        toast.error("Error al guardar configuración");
+      }
+    } catch (error) {
+      toast.error("Error de conexión");
+    } finally {
+      setSettingsLoading(false);
+    }
+  };
 
   const fetchProducts = async () => {
     try {
@@ -63,6 +104,7 @@ export default function AdminDashboard() {
     setEditingProduct(null);
     setName("");
     setPrice("");
+    setOriginalPrice("");
     setCategory("Nacional");
     setType("Titular");
     setImage("");
@@ -80,6 +122,7 @@ export default function AdminDashboard() {
     setEditingProduct(product);
     setName(product.name);
     setPrice(product.price.toString());
+    setOriginalPrice(product.originalPrice ? product.originalPrice.toString() : "");
     setCategory(product.category);
     setType(product.type);
     setImage(product.image);
@@ -131,6 +174,7 @@ export default function AdminDashboard() {
     const productData = {
       name,
       price: Number(price),
+      originalPrice: originalPrice ? Number(originalPrice) : null,
       category,
       type,
       image,
@@ -209,6 +253,41 @@ export default function AdminDashboard() {
         </div>
       </div>
 
+      {/* Settings Section */}
+      <div className="bg-brand-card/50 border border-white/5 rounded-2xl p-6 mb-8 shadow-xl">
+        <h2 className="font-anton text-xl tracking-wide uppercase mb-4 text-brand-gold">Configuración de Envío</h2>
+        <form onSubmit={saveSettings} className="flex flex-col sm:flex-row gap-4 items-end">
+          <div className="flex-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-white/50 mb-2">Costo de Envío Base ($ ARS)</label>
+            <input 
+              type="number" 
+              min="0"
+              value={storeSettings.shippingCost}
+              onChange={(e) => setStoreSettings({...storeSettings, shippingCost: Number(e.target.value)})}
+              className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:border-brand-gold focus:outline-none" 
+            />
+          </div>
+          <div className="flex-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-white/50 mb-2">Envío Gratis a partir de (Cant. Camisetas)</label>
+            <input 
+              type="number" 
+              min="0"
+              value={storeSettings.freeShippingThreshold}
+              onChange={(e) => setStoreSettings({...storeSettings, freeShippingThreshold: Number(e.target.value)})}
+              className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:border-brand-gold focus:outline-none" 
+            />
+            <p className="text-[10px] text-white/40 mt-1">Poné 0 si no querés aplicar envío gratis por cantidad.</p>
+          </div>
+          <button 
+            type="submit"
+            disabled={settingsLoading}
+            className="bg-brand-gold text-brand-black px-6 py-2.5 rounded-xl font-bold uppercase tracking-wider text-sm hover:bg-[#ffb700] transition-colors disabled:opacity-50 h-[46px]"
+          >
+            {settingsLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Guardar Envío"}
+          </button>
+        </form>
+      </div>
+
       <div className="bg-brand-card/50 border border-white/5 rounded-2xl overflow-hidden shadow-xl">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
@@ -249,6 +328,9 @@ export default function AdminDashboard() {
                   </td>
                   <td className="px-6 py-4 font-mono text-brand-gold">
                     ${product.price.toLocaleString("es-AR")}
+                    {product.originalPrice && product.originalPrice > product.price && (
+                      <div className="text-xs text-red-400 line-through mt-1">${product.originalPrice.toLocaleString("es-AR")}</div>
+                    )}
                   </td>
                   <td className="px-6 py-4">
                     {product.featured ? (
@@ -302,9 +384,15 @@ export default function AdminDashboard() {
                   <input type="text" value={name} onChange={(e) => setName(e.target.value)} required className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:border-brand-gold focus:outline-none" placeholder="Ej: Real Madrid" />
                 </div>
                 
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-white/50 mb-2">Precio ($ ARS)</label>
-                  <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} required min="0" className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:border-brand-gold focus:outline-none" placeholder="Ej: 45000" />
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-white/50 mb-2">Precio Final ($ ARS)</label>
+                    <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} required min="0" className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:border-brand-gold focus:outline-none" placeholder="Ej: 40000" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-brand-gold mb-2 flex items-center gap-1">Precio Original <span className="text-[10px] text-white/40">(Tachado)</span></label>
+                    <input type="number" value={originalPrice} onChange={(e) => setOriginalPrice(e.target.value)} min="0" className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:border-brand-gold focus:outline-none" placeholder="Ej: 50000 (Opcional)" />
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
