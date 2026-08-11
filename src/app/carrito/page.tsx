@@ -220,7 +220,7 @@ export default function CheckoutPage() {
                 <span className="flex items-center gap-2">
                   Pagar con 
                   <img 
-                    src="https://upload.wikimedia.org/wikipedia/commons/d/d4/Mercado_Pago_logo.svg" 
+                    src="https://http2.mlstatic.com/frontend-assets/ui-navigation/5.19.1/mercadopago/logo__large@2x.png" 
                     className="h-5 brightness-0 invert object-contain" 
                     alt="Mercado Pago" 
                   />
