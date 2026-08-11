@@ -19,7 +19,7 @@ export default function Footer() {
               <a href="https://wa.me/5493413109231?text=Hola%2011%20ONZE%20CAMISETAS!%20Tengo%20una%20consulta" target="_blank" rel="noopener noreferrer" className="text-xs font-bold uppercase tracking-widest text-brand-gold hover:text-white transition-colors">
                 WhatsApp: 341 310-9231
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-xs font-bold uppercase tracking-widest text-brand-gold hover:text-white transition-colors">
+              <a href="https://www.instagram.com/onze.camisetas/" target="_blank" rel="noopener noreferrer" className="text-xs font-bold uppercase tracking-widest text-brand-gold hover:text-white transition-colors">
                 Seguinos en Instagram
               </a>
             </div>
