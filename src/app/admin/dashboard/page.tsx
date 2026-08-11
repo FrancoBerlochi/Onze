@@ -328,39 +328,50 @@ export default function AdminDashboard() {
 
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-white/50 mb-2">Imagen de la Camiseta</label>
-                  <div className="flex gap-2">
+                  <div className="flex flex-col sm:flex-row gap-2">
                     <input type="text" value={image} onChange={(e) => setImage(e.target.value)} required className="flex-1 bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:border-brand-gold focus:outline-none text-sm" placeholder="URL de la imagen o /nombre.webp" />
                     
-                    {process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ? (
-                      <CldUploadWidget 
-                        uploadPreset="onze-camisetas" 
-                        onSuccess={(result: any) => {
-                          setImage(result.info.secure_url);
-                        }}
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setImage('/logo-onze-camisetas-remera.webp')}
+                        className="bg-white/5 border border-white/10 px-4 rounded-xl text-xs font-bold text-white/60 hover:text-white hover:bg-white/10 transition-colors whitespace-nowrap flex items-center justify-center"
+                        title="Usar imagen por defecto"
                       >
-                        {({ open }) => {
-                          return (
-                            <button 
-                              type="button" 
-                              onClick={(e) => { e.preventDefault(); open(); }}
-                              className="bg-white/5 border border-white/10 px-4 rounded-xl flex items-center justify-center hover:bg-white/10 transition-colors group"
-                              title="Subir a Cloudinary"
-                            >
-                              <ImageIcon className="w-5 h-5 text-white/60 group-hover:text-brand-gold" />
-                            </button>
-                          );
-                        }}
-                      </CldUploadWidget>
-                    ) : (
-                      <button 
-                        type="button" 
-                        onClick={() => toast.error("Para usar este botón, debés configurar NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME en tu archivo .env.local de Next.js")}
-                        className="bg-white/5 border border-white/10 px-4 rounded-xl flex items-center justify-center cursor-help opacity-50"
-                        title="Cloudinary no configurado"
-                      >
-                        <ImageIcon className="w-5 h-5 text-white/30" />
+                        Logo por Defecto
                       </button>
-                    )}
+
+                      {process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ? (
+                        <CldUploadWidget 
+                          uploadPreset="onze-camisetas" 
+                          onSuccess={(result: any) => {
+                            setImage(result.info.secure_url);
+                          }}
+                        >
+                          {({ open }) => {
+                            return (
+                              <button 
+                                type="button" 
+                                onClick={(e) => { e.preventDefault(); open(); }}
+                                className="bg-white/5 border border-white/10 px-4 py-2.5 rounded-xl flex items-center justify-center hover:bg-white/10 transition-colors group"
+                                title="Subir a Cloudinary"
+                              >
+                                <ImageIcon className="w-5 h-5 text-white/60 group-hover:text-brand-gold" />
+                              </button>
+                            );
+                          }}
+                        </CldUploadWidget>
+                      ) : (
+                        <button 
+                          type="button" 
+                          onClick={() => toast.error("Para usar este botón, debés configurar NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME en tu archivo .env.local de Next.js")}
+                          className="bg-white/5 border border-white/10 px-4 py-2.5 rounded-xl flex items-center justify-center cursor-help opacity-50"
+                          title="Cloudinary no configurado"
+                        >
+                          <ImageIcon className="w-5 h-5 text-white/30" />
+                        </button>
+                      )}
+                    </div>
                   </div>
                   {image && (
                     <div className="mt-3 relative w-32 h-32 rounded-xl border border-white/10 overflow-hidden bg-black/50">
