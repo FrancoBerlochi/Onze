@@ -211,20 +211,16 @@ export default function CheckoutPage() {
               type="submit"
               form="checkoutForm"
               disabled={isSubmitting}
-              className="w-full py-4 bg-[#009EE3] hover:bg-[#008DD0] text-white font-bold uppercase tracking-wider rounded-xl flex items-center justify-center gap-2.5 transition-colors mb-4 disabled:opacity-50"
+              className="w-full py-3 bg-[#009EE3] hover:bg-[#008DD0] rounded-xl flex items-center justify-center transition-colors mb-4 disabled:opacity-50"
             >
-              <Lock className="w-5 h-5" />
               {isSubmitting ? (
-                'Procesando...'
+                <span className="text-white font-bold uppercase tracking-wider">Procesando...</span>
               ) : (
-                <span className="flex items-center gap-2">
-                  Pagar con 
-                  <img 
-                    src="https://http2.mlstatic.com/frontend-assets/ui-navigation/5.19.1/mercadopago/logo__large@2x.png" 
-                    className="h-5 brightness-0 invert object-contain" 
-                    alt="Mercado Pago" 
-                  />
-                </span>
+                <img 
+                  src="https://http2.mlstatic.com/frontend-assets/ui-navigation/5.19.1/mercadopago/logo__large@2x.png" 
+                  className="h-7 brightness-0 invert object-contain" 
+                  alt="Mercado Pago" 
+                />
               )}
             </button>
             
