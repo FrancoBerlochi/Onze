@@ -11,7 +11,8 @@ export default function Header() {
   const { cartCount, setIsCartOpen } = useCart();
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-brand-black/80 backdrop-blur-md border-b border-white/10">
+    <>
+      <header className="sticky top-0 z-50 w-full bg-brand-black/80 backdrop-blur-md border-b border-white/10">
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
         {/* Mobile Menu Button */}
         <button 
@@ -57,6 +58,8 @@ export default function Header() {
         </div>
       </div>
 
+      </header>
+
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
@@ -73,9 +76,9 @@ export default function Header() {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 left-0 h-full w-[85%] max-w-xs bg-brand-black z-[100] flex flex-col md:hidden border-r border-white/10 shadow-2xl overflow-hidden"
+              className="fixed top-0 left-0 h-[100dvh] w-[85%] max-w-xs bg-brand-black z-[100] flex flex-col md:hidden border-r border-white/10 shadow-2xl overflow-y-auto custom-scrollbar"
             >
-              <div className="p-5 border-b border-white/10 flex items-center justify-between bg-brand-black">
+              <div className="p-5 border-b border-white/10 flex items-center justify-between bg-brand-black shrink-0">
                 <div className="font-anton text-xl tracking-wide uppercase text-white">
                   11 ONZE <span className="text-brand-gold text-xs block font-sans tracking-widest">CAMISETAS</span>
                 </div>
@@ -114,7 +117,7 @@ export default function Header() {
                 </Link>
               </nav>
 
-              <div className="p-6 border-t border-white/10 bg-brand-black flex flex-col gap-3">
+              <div className="p-6 border-t border-white/10 bg-brand-black flex flex-col gap-3 shrink-0">
                 <a 
                   href="https://wa.me/5493413109231?text=Hola%2011%20ONZE%20CAMISETAS!%20Tengo%20una%20consulta" 
                   target="_blank" 
@@ -128,6 +131,6 @@ export default function Header() {
           </>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 }
