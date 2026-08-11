@@ -214,7 +214,18 @@ export default function CheckoutPage() {
               className="w-full py-4 bg-[#009EE3] hover:bg-[#008DD0] text-white font-bold uppercase tracking-wider rounded-xl flex items-center justify-center gap-2.5 transition-colors mb-4 disabled:opacity-50"
             >
               <Lock className="w-5 h-5" />
-              {isSubmitting ? 'Procesando...' : 'Pagar con Mercado Pago'}
+              {isSubmitting ? (
+                'Procesando...'
+              ) : (
+                <span className="flex items-center gap-2">
+                  Pagar con 
+                  <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/d/d4/Mercado_Pago_logo.svg" 
+                    className="h-5 brightness-0 invert object-contain" 
+                    alt="Mercado Pago" 
+                  />
+                </span>
+              )}
             </button>
             
             <div className="flex items-center justify-center gap-2 text-xs text-white/40">
