@@ -256,8 +256,8 @@ export default function AdminDashboard() {
       {/* Settings Section */}
       <div className="bg-brand-card/50 border border-white/5 rounded-2xl p-6 mb-8 shadow-xl">
         <h2 className="font-anton text-xl tracking-wide uppercase mb-4 text-brand-gold">Configuración de Envío</h2>
-        <form onSubmit={saveSettings} className="flex flex-col sm:flex-row gap-4 items-end">
-          <div className="flex-1">
+        <form onSubmit={saveSettings} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-start">
+          <div className="md:col-span-5">
             <label className="block text-xs font-bold uppercase tracking-wider text-white/50 mb-2">Costo de Envío Base ($ ARS)</label>
             <input 
               type="number" 
@@ -267,8 +267,8 @@ export default function AdminDashboard() {
               className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:border-brand-gold focus:outline-none" 
             />
           </div>
-          <div className="flex-1">
-            <label className="block text-xs font-bold uppercase tracking-wider text-white/50 mb-2">Envío Gratis a partir de (Cant. Camisetas)</label>
+          <div className="md:col-span-5">
+            <label className="block text-xs font-bold uppercase tracking-wider text-white/50 mb-2">Envío Gratis a partir de (Cant.)</label>
             <input 
               type="number" 
               min="0"
@@ -278,13 +278,15 @@ export default function AdminDashboard() {
             />
             <p className="text-[10px] text-white/40 mt-1">Poné 0 si no querés aplicar envío gratis por cantidad.</p>
           </div>
-          <button 
-            type="submit"
-            disabled={settingsLoading}
-            className="bg-brand-gold text-brand-black px-6 py-2.5 rounded-xl font-bold uppercase tracking-wider text-sm hover:bg-[#ffb700] transition-colors disabled:opacity-50 h-[46px]"
-          >
-            {settingsLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Guardar Envío"}
-          </button>
+          <div className="md:col-span-2 pt-6">
+            <button 
+              type="submit"
+              disabled={settingsLoading}
+              className="w-full bg-brand-gold text-brand-black px-4 py-2.5 rounded-xl font-bold uppercase tracking-wider text-sm hover:bg-[#ffb700] transition-colors disabled:opacity-50 flex justify-center items-center h-[46px]"
+            >
+              {settingsLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Guardar"}
+            </button>
+          </div>
         </form>
       </div>
 
@@ -343,11 +345,11 @@ export default function AdminDashboard() {
                     </div>
                   </td>
                   <td className="px-6 py-4 text-right">
-                    <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button onClick={() => openEditModal(product)} disabled={deletingId !== null} className="p-2 hover:bg-white/10 rounded-lg text-white/60 hover:text-white transition-colors disabled:opacity-50" title="Editar">
+                    <div className="flex items-center justify-end gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+                      <button onClick={() => openEditModal(product)} disabled={deletingId !== null} className="p-2 bg-white/5 md:bg-transparent hover:bg-white/10 rounded-lg text-white/80 md:text-white/60 hover:text-white transition-colors disabled:opacity-50" title="Editar">
                         <Edit2 className="w-4 h-4" />
                       </button>
-                      <button onClick={() => handleDelete(product.id)} disabled={deletingId === product.id} className="p-2 hover:bg-red-500/20 rounded-lg text-red-400 hover:text-red-300 transition-colors disabled:opacity-50" title="Eliminar">
+                      <button onClick={() => handleDelete(product.id)} disabled={deletingId === product.id} className="p-2 bg-red-500/10 md:bg-transparent hover:bg-red-500/20 rounded-lg text-red-400 hover:text-red-300 transition-colors disabled:opacity-50" title="Eliminar">
                         {deletingId === product.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
                       </button>
                     </div>

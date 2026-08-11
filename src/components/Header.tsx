@@ -73,9 +73,9 @@ export default function Header() {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 left-0 h-full w-[85%] max-w-xs bg-[#0B0B0B] z-[100] flex flex-col md:hidden border-r border-white/10 shadow-2xl overflow-hidden"
+              className="fixed top-0 left-0 h-full w-[85%] max-w-xs bg-brand-black z-[100] flex flex-col md:hidden border-r border-white/10 shadow-2xl overflow-hidden"
             >
-              <div className="p-5 border-b border-white/10 flex items-center justify-between bg-[#0B0B0B]">
+              <div className="p-5 border-b border-white/10 flex items-center justify-between bg-brand-black">
                 <div className="font-anton text-xl tracking-wide uppercase text-white">
                   11 ONZE <span className="text-brand-gold text-xs block font-sans tracking-widest">CAMISETAS</span>
                 </div>
@@ -87,7 +87,7 @@ export default function Header() {
                 </button>
               </div>
               
-              <nav className="flex flex-col p-6 gap-6 flex-1 bg-[#0B0B0B]">
+              <nav className="flex flex-col p-6 gap-6 flex-1 bg-brand-black">
                 <Link 
                   href="/" 
                   onClick={() => { 
@@ -114,7 +114,7 @@ export default function Header() {
                 </Link>
               </nav>
 
-              <div className="p-6 border-t border-white/10 bg-[#0B0B0B] flex flex-col gap-3">
+              <div className="p-6 border-t border-white/10 bg-brand-black flex flex-col gap-3">
                 <a 
                   href="https://wa.me/5493413109231?text=Hola%2011%20ONZE%20CAMISETAS!%20Tengo%20una%20consulta" 
                   target="_blank" 
