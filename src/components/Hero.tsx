@@ -10,8 +10,8 @@ export default function Hero() {
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-brand-black/60 via-brand-black/85 to-brand-black z-10" />
         <img 
-          src="/hero-bg.webp" 
-          alt="Estadio de fútbol 11 ONZE" 
+          src="/image.webp" 
+          alt="11 ONZE Camisetas" 
           className="w-full h-full object-cover object-center opacity-50 scale-105"
         />
       </div>
