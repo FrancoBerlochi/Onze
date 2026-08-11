@@ -12,7 +12,7 @@ export default function Hero() {
         <img 
           src="/image.webp" 
           alt="11 ONZE Camisetas" 
-          className="w-full h-full object-cover object-center opacity-50 scale-105"
+          className="w-full h-full object-cover object-center opacity-50 scale-105 grayscale"
         />
       </div>
 
