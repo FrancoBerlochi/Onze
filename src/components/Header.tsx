@@ -16,6 +16,7 @@ export default function Header() {
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
         {/* Mobile Menu Button */}
         <button 
+          aria-label="Abrir menú"
           className="md:hidden p-2 text-white hover:text-brand-gold transition-colors"
           onClick={() => setIsMobileMenuOpen(true)}
         >
@@ -45,6 +46,7 @@ export default function Header() {
         {/* Actions */}
         <div className="flex items-center gap-4">
           <button 
+            aria-label="Ver carrito"
             className="relative p-2 text-white hover:text-brand-gold transition-colors group"
             onClick={() => setIsCartOpen(true)}
           >
@@ -83,6 +85,7 @@ export default function Header() {
                   11 ONZE <span className="text-brand-gold text-xs block font-sans tracking-widest">CAMISETAS</span>
                 </div>
                 <button 
+                  aria-label="Cerrar menú"
                   onClick={() => setIsMobileMenuOpen(false)} 
                   className="p-2 bg-white/10 rounded-full text-white/70 hover:text-white hover:bg-white/20 transition-all"
                 >

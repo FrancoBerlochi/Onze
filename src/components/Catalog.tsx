@@ -90,6 +90,7 @@ export default function Catalog({ initialProducts }: CatalogProps) {
           
           <div className="relative shrink-0">
             <button 
+              aria-label="Opciones de ordenamiento"
               onClick={() => setIsSortOpen(!isSortOpen)}
               className="flex items-center gap-2 bg-brand-card border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white/80 hover:text-white hover:border-white/20 transition-colors"
             >

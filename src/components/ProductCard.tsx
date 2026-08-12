@@ -86,7 +86,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         <div className="p-5 flex flex-col flex-1 justify-between gap-4">
           <div>
             <div className={`text-xs uppercase tracking-widest mb-1 font-bold ${
-              product.category === 'Nacional' ? 'text-sky-400' : 'text-emerald-400'
+              product.category === 'Nacional' ? 'text-sky-300' : 'text-emerald-300'
             }`}>
               {product.category}
             </div>
@@ -98,7 +98,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           <div className="flex items-end justify-between mt-auto">
             <div className="flex flex-col">
               {product.originalPrice && product.originalPrice > product.price && (
-                <span className="text-xs text-white/40 line-through mb-0.5">
+                <span className="text-xs text-white/60 line-through mb-0.5">
                   ${product.originalPrice.toLocaleString("es-AR")}
                 </span>
               )}
@@ -108,7 +108,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             </div>
             <div className="flex gap-1 mb-1">
               {["S", "M", "L", "XL", "XXL", "3XL"].map(size => (
-                <span key={size} className="text-[10px] text-white/30 font-medium">
+                <span key={size} className="text-[10px] text-white/60 font-medium">
                   {size}
                 </span>
               ))}

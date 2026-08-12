@@ -12,7 +12,7 @@ export default function Footer() {
             <div className="font-anton text-3xl tracking-wide uppercase text-white">
               11 ONZE <span className="text-brand-gold">CAMISETAS</span>
             </div>
-            <p className="text-sm text-white/60 max-w-sm leading-relaxed">
+            <p className="text-sm text-white/70 max-w-sm leading-relaxed">
               Tienda 100% online especializada en camisetas de fútbol nacionales e internacionales. La mejor calidad para los verdaderos hinchas.
             </p>
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-2">
@@ -27,7 +27,7 @@ export default function Footer() {
 
           {/* Links Col */}
           <div className="flex flex-col gap-4">
-            <h4 className="font-anton text-xl tracking-wider text-white">ENLACES RÁPIDOS</h4>
+            <h3 className="font-anton text-xl tracking-wider text-white">ENLACES RÁPIDOS</h3>
             <nav className="flex flex-col gap-3">
               <Link href="#catalogo" className="text-sm text-white/60 hover:text-brand-gold transition-colors">Catálogo Completo</Link>
               <Link href="#medidas" className="text-sm text-white/60 hover:text-brand-gold transition-colors">Tabla de Medidas</Link>
@@ -37,7 +37,7 @@ export default function Footer() {
 
           {/* Info Col */}
           <div className="flex flex-col gap-4">
-            <h4 className="font-anton text-xl tracking-wider text-white">INFORMACIÓN</h4>
+            <h3 className="font-anton text-xl tracking-wider text-white">INFORMACIÓN</h3>
             <div className="flex flex-col gap-4">
               <div className="flex items-start gap-3">
                 <Truck className="w-5 h-5 text-brand-gold shrink-0 mt-0.5" />
@@ -59,12 +59,12 @@ export default function Footer() {
         </div>
 
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-white/40">
+          <p className="text-xs text-white/60">
             &copy; {new Date().getFullYear()} 11 ONZE CAMISETAS. Todos los derechos reservados.
           </p>
           <div className="flex items-center gap-4">
-            <span className="text-xs font-medium text-white/40 uppercase tracking-widest">Medios de Pago:</span>
-            <span className="text-xs text-white/60">Efectivo • Transferencia • Crédito</span>
+            <span className="text-xs font-medium text-white/60 uppercase tracking-widest">Medios de Pago:</span>
+            <span className="text-xs text-white/70">Efectivo • Transferencia • Crédito</span>
           </div>
         </div>
       </div>
