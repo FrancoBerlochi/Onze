@@ -2,6 +2,7 @@
 
 import { ShoppingBag, Truck, ShieldCheck, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function Hero() {
   return (
@@ -9,10 +10,13 @@ export default function Hero() {
       {/* Background Image & Overlay */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-brand-black/60 via-brand-black/85 to-brand-black z-10" />
-        <img 
+        <Image 
           src="/diego.webp" 
-          alt="11 ONZE Camisetas" 
-          className="w-full h-full object-cover object-center opacity-50 scale-105"
+          alt="11 ONZE Camisetas"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center opacity-50 scale-105"
         />
       </div>
 

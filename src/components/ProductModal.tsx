@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Product, Size } from "@/data/mockProducts";
 import { useCart } from "@/context/CartContext";
+import Image from "next/image";
 import SizeModal from "./SizeModal";
 
 interface ProductModalProps {
@@ -67,11 +68,12 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
               
               {/* Image Section */}
               <div className="w-full md:w-1/2 h-[30vh] sm:h-[36vh] md:h-auto relative bg-[#111] shrink-0 border-b md:border-b-0 md:border-r border-white/5 group cursor-pointer" onClick={() => setIsZoomed(true)}>
-                <img
+                <Image
                   src={product.image || "/logo-onze-camisetas-remera.webp"}
                   alt={product.name}
-                  onError={(e) => { (e.target as HTMLImageElement).src = "/logo-onze-camisetas-remera.webp"; }}
-                  className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 />
                 
                 {/* Zoom overlay hint */}
@@ -207,14 +209,12 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
             >
               <X className="w-6 h-6" />
             </button>
-            <motion.img
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
+            <Image
               src={product.image || "/logo-onze-camisetas-remera.webp"}
               alt={product.name}
+              width={1440}
+              height={1800}
               className="max-w-full max-h-[90vh] object-contain rounded-lg"
-              onError={(e) => { (e.target as HTMLImageElement).src = "/logo-onze-camisetas-remera.webp"; }}
             />
           </motion.div>
         )}

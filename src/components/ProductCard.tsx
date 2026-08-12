@@ -4,6 +4,7 @@ import { Product } from "@/data/mockProducts";
 import { Plus } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import Image from "next/image";
 import ProductModal from "./ProductModal";
 
 interface ProductCardProps {
@@ -48,15 +49,17 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
 
           {/* Image */}
-          <img
+          <Image
             src={imgSrc}
             alt={product.name}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
             onError={() => {
               if (imgSrc !== "/logo-onze-camisetas-remera.webp") {
                 setImgSrc("/logo-onze-camisetas-remera.webp");
               }
             }}
-            className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+            className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
           />
 
           {/* Overlay Add to Cart button */}
